@@ -5,13 +5,13 @@
 <script src="vendor/PointerLockControls.js"></script>
 <script src='vendor/threex.solidwireframe.js'></script>
 <script src='vendor/three.js/build/three.min.js'></script>
-<script src='threex.webcamtexture.js'></script>
-<body style='margin: 0px; background-color: #333; overflow: hidden;'>
+<script src='vendor/threex.webcamtexture.js'></script>
+<body style='margin: 0px; background-color: #444; overflow: hidden;'>
 <script>
 	var controls;
 	var scene	= new THREE.Scene();
 	var renderer	= new THREE.WebGLRenderer();
-	var camera	= new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 100 );
+	var camera	= new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, .01, 100 );
 	var velocity = new THREE.Vector3();
 
 	var controlsEnabled = false;
@@ -116,7 +116,6 @@
 	function addControls() {
 	    controls = new THREE.PointerLockControls( camera );
 	    scene.add( controls.getObject() );
-	    ray = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(0, 1, 0), 0, 10);
 	    
 	    initPointerLock();
 	}
@@ -127,7 +126,6 @@
 
 	var onRenderFcts	= [];
 	addControls();
-	camera.position.y = -10;
 
 	// create the webcamTexture
 	var webcamTexture	= new THREEx.WebcamTexture()
@@ -158,24 +156,35 @@
 	scene.add( mesh6 );
 	scene.add( mesh7 );
 	
-	mesh.position = new THREE.Vector3(0, 0, -10);		
-	mesh2.position = new THREE.Vector3(3, 0, -2);		
-	mesh3.position = new THREE.Vector3(-3, 0, -2);		
-	mesh4.position = new THREE.Vector3(3, 0, -5);		
-	mesh5.position = new THREE.Vector3(-3, 0, -5);		
+	scene.fog = new THREE.Fog( 0xff00ff, 0, 750 );
+
+	mesh.position = new THREE.Vector3(0, 0, -10);
+	mesh2.position = new THREE.Vector3(3, 0, -2);
+	mesh3.position = new THREE.Vector3(-3, 0, -2);
+	mesh4.position = new THREE.Vector3(3, 0, -5);
+	mesh5.position = new THREE.Vector3(-3, 0, -5);
 	mesh6.position = new THREE.Vector3(3, 0, -8);
 	mesh7.position = new THREE.Vector3(-3, 0, -8);
+
+	var floor	  = new THREE.PlaneGeometry( 1000, 1000, 2048);
+	var material  = new THREEx.SolidWireframeMaterial(floor);
+	var floorMesh = new THREE.Mesh( floor, material );
+	scene.add( floorMesh );
+
+	floorMesh.position = new THREE.Vector3(0, -.5, 0);
+	floorMesh.rotateX(-Math.PI / 2);
+	floorMesh.rotateZ(-Math.PI / 2);
 
 	//Add controls
 	onRenderFcts.push(function(delta, now){
 		velocity.x -= velocity.x * 10.0 * delta;
         velocity.z -= velocity.z * 10.0 * delta;
 
-        if ( moveForward ) velocity.z -= 100.0 * delta;
-        if ( moveBackward ) velocity.z += 100.0 * delta;
+        if ( moveForward ) velocity.z -= 50.0 * delta;
+        if ( moveBackward ) velocity.z += 50.0 * delta;
 
-        if ( moveLeft ) velocity.x -= 100.0 * delta;
-        if ( moveRight ) velocity.x += 100.0 * delta;
+        if ( moveLeft ) velocity.x -= 50.0 * delta;
+        if ( moveRight ) velocity.x += 50.0 * delta;
 
         controls.getObject().translateX( velocity.x * delta );
         controls.getObject().translateY( velocity.y * delta );
@@ -189,7 +198,7 @@
 
 	onRenderFcts.push(function(delta, now){
 		//mesh.rotation.x += 1 * delta;
-		//mesh.rotation.y += 2 * delta;		
+		//mesh.rotation.y += 2 * delta;
 	})
 	debugger;
 	//////////////////////////////////////////////////////////////////////////////////
@@ -215,10 +224,12 @@
 		camera.aspect	= window.innerWidth / window.innerHeight
 		camera.updateProjectionMatrix()		
 	}, false)
-
+	
+	renderer.setClearColor( 0x333333 );
+	
 	// render the scene
 	onRenderFcts.push(function(){
-		renderer.render( scene, camera );		
+		renderer.render( scene, camera );
 	})
 	
 	// run the rendering loop
