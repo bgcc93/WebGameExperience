@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-
+<style type="text/css"></style>
 <script src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r79/three.min.js"></script>
 <script src="vendor/PointerLockControls.js"></script>
+<script src='vendor/threex.solidwireframe.js'></script>
 <script src='vendor/three.js/build/three.min.js'></script>
 <script src='threex.webcamtexture.js'></script>
-<body style='margin: 0px; background-color: #bbbbbb; overflow: hidden;'>
+<body style='margin: 0px; background-color: #333; overflow: hidden;'>
 <script>
 	var controls;
 	var scene	= new THREE.Scene();
@@ -127,10 +128,7 @@
 	var onRenderFcts	= [];
 	addControls();
 	camera.position.y = -10;
-	//////////////////////////////////////////////////////////////////////////////////
-	//		add an object and make it move					//
-	//////////////////////////////////////////////////////////////////////////////////
-	
+
 	// create the webcamTexture
 	var webcamTexture	= new THREEx.WebcamTexture()
 	onRenderFcts.push(function(delta, now){
@@ -142,6 +140,7 @@
 	var material	= new THREE.MeshBasicMaterial({
 		map	: webcamTexture.texture
 	});
+
 	var mesh	= new THREE.Mesh( geometry, material );
 	var mesh2	= new THREE.Mesh( geometry, material );
 	var mesh3	= new THREE.Mesh( geometry, material );
@@ -159,13 +158,15 @@
 	scene.add( mesh6 );
 	scene.add( mesh7 );
 	
-	mesh2.position = new THREE.Vector3(2, 0, 1);		
-	mesh3.position = new THREE.Vector3(-2, 0, 1);		
-	mesh4.position = new THREE.Vector3(2, 0, 2);		
-	mesh5.position = new THREE.Vector3(-2, 0, 2);		
-	mesh6.position = new THREE.Vector3(2, 0, 3);
-	mesh7.position = new THREE.Vector3(-2, 0, 3);
+	mesh.position = new THREE.Vector3(0, 0, -10);		
+	mesh2.position = new THREE.Vector3(3, 0, -2);		
+	mesh3.position = new THREE.Vector3(-3, 0, -2);		
+	mesh4.position = new THREE.Vector3(3, 0, -5);		
+	mesh5.position = new THREE.Vector3(-3, 0, -5);		
+	mesh6.position = new THREE.Vector3(3, 0, -8);
+	mesh7.position = new THREE.Vector3(-3, 0, -8);
 
+	//Add controls
 	onRenderFcts.push(function(delta, now){
 		velocity.x -= velocity.x * 10.0 * delta;
         velocity.z -= velocity.z * 10.0 * delta;
@@ -180,8 +181,10 @@
         controls.getObject().translateY( velocity.y * delta );
         controls.getObject().translateZ( velocity.z * delta );
 
-		//mesh.rotation.x += 1 * delta;
-		//mesh.rotation.y += 2 * delta;		
+        if(controls.getObject().position.x >= 2) controls.getObject().position.x = 2;
+        if(controls.getObject().position.x <= -2) controls.getObject().position.x = -2;
+        if(controls.getObject().position.z >= 5) controls.getObject().position.z = 5;
+
 	})
 
 	onRenderFcts.push(function(delta, now){
