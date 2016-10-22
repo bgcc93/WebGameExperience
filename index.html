@@ -6,19 +6,45 @@
 <script src='vendor/threex.solidwireframe.js'></script>
 <script src='vendor/three.js/build/three.min.js'></script>
 <script src='vendor/threex.webcamtexture.js'></script>
-<body style='margin: 0px; background-color: #444; overflow: hidden;'>
+<script src='vendor/threex.videotexture.js'></script>
+<script src='videos.js'></script>
+<body style='margin: 0px; background-color: #000; overflow: hidden;'>
 <script>
 	var controls;
 	var scene	= new THREE.Scene();
 	var renderer	= new THREE.WebGLRenderer();
-	var camera	= new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, .01, 100 );
+	var camera	= new THREE.PerspectiveCamera(95, window.innerWidth / window.innerHeight, .01, 500 );
 	var velocity = new THREE.Vector3();
-
+	var planeSize = 4;
+	var corridorSize = 8;
+	var wallHeigth = 10;
+	var wallLength = 13;
+	
 	var controlsEnabled = false;
 	var moveForward = false;
 	var moveBackward = false;
 	var moveLeft = false;
 	var moveRight = false;
+	var videoMaterials = [];
+	var videoUrls = GetVideos();
+	var videoTextures = []
+	var onRenderFcts = [];
+	var havePointerLock = checkForPointerLock();
+	var geometry	= new THREE.PlaneGeometry(planeSize,planeSize,4);
+
+	videoUrls.forEach(function(videoUrl){
+		// create the videoTexture
+		var videoTexture = new THREEx.VideoTexture(videoUrl);
+		videoTextures.push(videoTexture);
+		
+		onRenderFcts.push(function(delta, now){
+			videoTexture.update(delta, now)
+		})
+		
+		videoMaterials.push(new THREE.MeshBasicMaterial({
+			map	: videoTexture.texture
+		}));
+	})
 
 	var onKeyDown = function ( event ) {
 
@@ -119,80 +145,68 @@
 	    
 	    initPointerLock();
 	}
-	var havePointerLock = checkForPointerLock();
+	
+	function CreateWall(side = -1){
+		for(var i = -wallHeigth; i < wallHeigth; i++){
+			for(var j = 0; j < wallLength*2; j++){
+				for(var k = 1; k < 4; k++){
+					var mesh	= new THREE.Mesh( geometry, videoMaterials[Math.floor(Math.random()*videoMaterials.length)] );
+					scene.add( mesh );
+
+					mesh.rotateY(side * (Math.PI / 2));
+					mesh.position = new THREE.Vector3( side * -corridorSize * k, i * (planeSize + 1), (j * -(planeSize + 1)));
+				}
+			}
+		}
+	}
+
 
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	document.body.appendChild( renderer.domElement );
 
-	var onRenderFcts	= [];
 	addControls();
-
-	// create the webcamTexture
+	
+	// create the webcamTexture	
 	var webcamTexture	= new THREEx.WebcamTexture()
-	onRenderFcts.push(function(delta, now){
-		webcamTexture.update(delta, now)
+		onRenderFcts.push(function(delta, now){
+			webcamTexture.update(delta, now)
 	})
-	
-	// use the texture in a THREE.Mesh
-	var geometry	= new THREE.CubeGeometry(1,1,1);
-	var material	= new THREE.MeshBasicMaterial({
+
+	var material = new THREE.MeshBasicMaterial({
 		map	: webcamTexture.texture
-	});
+	});	
 
-	var mesh	= new THREE.Mesh( geometry, material );
-	var mesh2	= new THREE.Mesh( geometry, material );
-	var mesh3	= new THREE.Mesh( geometry, material );
-	var mesh4	= new THREE.Mesh( geometry, material );
-	var mesh5	= new THREE.Mesh( geometry, material );
-	var mesh6	= new THREE.Mesh( geometry, material );
-	var mesh7	= new THREE.Mesh( geometry, material );
-	
-	scene.add( mesh );
-	scene.add( mesh );
-	scene.add( mesh2 );
-	scene.add( mesh3 );
-	scene.add( mesh4 );
-	scene.add( mesh5 );
-	scene.add( mesh6 );
-	scene.add( mesh7 );
-	
-	scene.fog = new THREE.Fog( 0xff00ff, 0, 750 );
+	var youGeometry	= new THREE.PlaneGeometry(planeSize*2,planeSize*2,4);
+	var you = new THREE.Mesh( youGeometry, material);
+	scene.add( you );
+	you.position = new THREE.Vector3( 0, 0, -110 );
 
-	mesh.position = new THREE.Vector3(0, 0, -10);
-	mesh2.position = new THREE.Vector3(3, 0, -2);
-	mesh3.position = new THREE.Vector3(-3, 0, -2);
-	mesh4.position = new THREE.Vector3(3, 0, -5);
-	mesh5.position = new THREE.Vector3(-3, 0, -5);
-	mesh6.position = new THREE.Vector3(3, 0, -8);
-	mesh7.position = new THREE.Vector3(-3, 0, -8);
+	CreateWall();
+	CreateWall(1);
 
-	var floor	  = new THREE.PlaneGeometry( 1000, 1000, 2048);
-	var material  = new THREEx.SolidWireframeMaterial(floor);
-	var floorMesh = new THREE.Mesh( floor, material );
-	scene.add( floorMesh );
-
-	floorMesh.position = new THREE.Vector3(0, -.5, 0);
-	floorMesh.rotateX(-Math.PI / 2);
-	floorMesh.rotateZ(-Math.PI / 2);
+	scene.fog = new THREE.FogExp2( 0xefd1b5, 0.0025 );
 
 	//Add controls
 	onRenderFcts.push(function(delta, now){
 		velocity.x -= velocity.x * 10.0 * delta;
         velocity.z -= velocity.z * 10.0 * delta;
 
-        if ( moveForward ) velocity.z -= 50.0 * delta;
-        if ( moveBackward ) velocity.z += 50.0 * delta;
+        var velAmount = 100;
 
-        if ( moveLeft ) velocity.x -= 50.0 * delta;
-        if ( moveRight ) velocity.x += 50.0 * delta;
+        if ( moveForward ) velocity.z -= velAmount * delta;
+        if ( moveBackward ) velocity.z += velAmount * delta;
+
+        if ( moveLeft ) velocity.x -= velAmount * delta;
+        if ( moveRight ) velocity.x += velAmount * delta;
 
         controls.getObject().translateX( velocity.x * delta );
         controls.getObject().translateY( velocity.y * delta );
         controls.getObject().translateZ( velocity.z * delta );
 
-        if(controls.getObject().position.x >= 2) controls.getObject().position.x = 2;
-        if(controls.getObject().position.x <= -2) controls.getObject().position.x = -2;
-        if(controls.getObject().position.z >= 5) controls.getObject().position.z = 5;
+        if(controls.getObject().position.x >= corridorSize - 1) controls.getObject().position.x = corridorSize - 1;
+        if(controls.getObject().position.x <= -corridorSize + 1) controls.getObject().position.x = -corridorSize + 1;
+        if(controls.getObject().position.z >= 0) controls.getObject().position.z = 0;
+        if(controls.getObject().position.z <= -105) controls.getObject().position.z = -105;
 
 	})
 
@@ -200,20 +214,7 @@
 		//mesh.rotation.x += 1 * delta;
 		//mesh.rotation.y += 2 * delta;
 	})
-	debugger;
-	//////////////////////////////////////////////////////////////////////////////////
-	//		Camera Controls							//
-	//////////////////////////////////////////////////////////////////////////////////
-	/*var mouse	= {x : 0, y : 0}
-	document.addEventListener('mousemove', function(event){
-		mouse.x	= (event.clientX / window.innerWidth ) - 0.5
-		mouse.y	= (event.clientY / window.innerHeight) - 0.5
-	}, false)
-	onRenderFcts.push(function(delta, now){
-		camera.position.x += (mouse.x*5 - camera.position.x) * (delta*3)
-		camera.position.y += (mouse.y*5 - camera.position.y) * (delta*3)
-		camera.lookAt( scene.position )
-	})*/
+
 	//////////////////////////////////////////////////////////////////////////////////
 	//		render the whole thing on the page
 	//////////////////////////////////////////////////////////////////////////////////
@@ -225,7 +226,7 @@
 		camera.updateProjectionMatrix()		
 	}, false)
 	
-	renderer.setClearColor( 0x333333 );
+	renderer.setClearColor( 0x101010 );
 	
 	// render the scene
 	onRenderFcts.push(function(){
@@ -246,4 +247,6 @@
 			onRenderFct(deltaMsec/1000, nowMsec/1000)
 		})
 	})
-</script></body>
+
+</script>
+</body>
