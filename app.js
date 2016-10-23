@@ -8,6 +8,7 @@ var corridorSize = 8;
 var wallHeigth = 9;
 var wallLength = 10;
 
+var reached = false;
 var controlsEnabled = false;
 var moveForward = false;
 var moveBackward = false;
@@ -17,6 +18,7 @@ var videoMaterials = [];
 var videoUrls = GetVideos();
 var videoTextures = []
 var onRenderFcts = [];
+var planeTvs = [];
 var havePointerLock = checkForPointerLock();
 var geometry	= new THREE.PlaneGeometry(planeSize,planeSize,1);
 
@@ -140,15 +142,15 @@ function CreateWall(side = -1){
 			for(var k = .7; k < 3; k++){
 				var mesh	= new THREE.Mesh( geometry, videoMaterials[Math.floor(Math.random()*videoMaterials.length)] );
 				scene.add( mesh );
-
+				mesh.material.side = THREE.DoubleSide;
 				mesh.rotateY(side * (Math.PI / 2));
 				mesh.position = new THREE.Vector3( side * -corridorSize * k * 1.7, i * (planeSize + 1), (j * -(planeSize + 1)));
-				/*not working :(
+				
 				onRenderFcts.push(function(delta, now){
-					mesh.position.z += 1 * delta;
-					mesh.position.y += 1 * delta;
+					mesh.position.z += 100 * delta;
+					mesh.position.y += 100 * delta;
 				})
-				*/
+				planeTvs.push(mesh);
 			}
 		}
 	}
@@ -167,7 +169,7 @@ var webcamTexture	= new THREEx.WebcamTexture()
 })
 
 var material = new THREE.MeshBasicMaterial({
-	map	: webcamTexture.texture
+	map	: webcamTexture.texture,
 });	
 
 var youGeometry	= new THREE.PlaneGeometry(planeSize*2,planeSize*2,4);
@@ -200,12 +202,24 @@ onRenderFcts.push(function(delta, now){
     if(controls.getObject().position.x <= -corridorSize + 1) controls.getObject().position.x = -corridorSize + 1;
     if(controls.getObject().position.z >= 0) controls.getObject().position.z = 0;
     if(controls.getObject().position.z <= -105) controls.getObject().position.z = -105;
+    if(controls.getObject().position.z <= -100) {reached = true;}
 
 })
 
 onRenderFcts.push(function(delta, now){
-	//mesh.rotation.x += 1 * delta;
-	//mesh.rotation.y += 2 * delta;
+	 planeTvs.forEach(function(tv){
+	 	if (!reached ){
+		 	var factor = Math.sin(now) *  Math.tan(now * delta) * (controls.getObject().position.z * .2	) * .4 * Math.random();
+
+		 	tv.position.z += delta * factor;
+		 	tv.position.y += delta * factor;
+		 	tv.position.x += delta * factor * (tv.position.x / 9);
+
+		 }else{
+		 	tv.material = material; 
+		 	tv.lookAt(controls.getObject().position)
+		 }
+	 });
 })
 
 //////////////////////////////////////////////////////////////////////////////////
