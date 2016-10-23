@@ -8,6 +8,7 @@ var corridorSize = 8;
 var wallHeigth = 9;
 var wallLength = 10;
 
+var reached = false;
 var controlsEnabled = false;
 var moveForward = false;
 var moveBackward = false;
@@ -17,6 +18,7 @@ var videoMaterials = [];
 var videoUrls = GetVideos();
 var videoTextures = []
 var onRenderFcts = [];
+var planeTvs = [];
 var havePointerLock = checkForPointerLock();
 var geometry	= new THREE.PlaneGeometry(planeSize,planeSize,1);
 
@@ -77,9 +79,6 @@ var onKeyUp = function ( event ) {
 	}
 };
 
-document.addEventListener( 'keydown', onKeyDown, false );
-document.addEventListener( 'keyup', onKeyUp, false );
-
 function checkForPointerLock() {
   return 'pointerLockElement' in document || 
          'mozPointerLockElement' in document || 
@@ -127,11 +126,22 @@ function initPointerLock() {
 function checkForPointerLock() {
     return 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
 }
+
 function addControls() {
     controls = new THREE.PointerLockControls( camera );
     scene.add( controls.getObject() );
     
     initPointerLock();
+}
+
+function FinishIt(){	
+	setTimeout(function() {
+		$('#overlay').animate({
+       		opacity: 1,
+	     }, 5000, function() {
+	        window.location = "end.html";
+	     });	
+	}, 4500);
 }
 
 function CreateWall(side = -1){
@@ -140,15 +150,11 @@ function CreateWall(side = -1){
 			for(var k = .7; k < 3; k++){
 				var mesh	= new THREE.Mesh( geometry, videoMaterials[Math.floor(Math.random()*videoMaterials.length)] );
 				scene.add( mesh );
-
+				mesh.material.side = THREE.DoubleSide;
 				mesh.rotateY(side * (Math.PI / 2));
 				mesh.position = new THREE.Vector3( side * -corridorSize * k * 1.7, i * (planeSize + 1), (j * -(planeSize + 1)));
-				/*not working :(
-				onRenderFcts.push(function(delta, now){
-					mesh.position.z += 1 * delta;
-					mesh.position.y += 1 * delta;
-				})
-				*/
+				
+				planeTvs.push(mesh);
 			}
 		}
 	}
@@ -167,7 +173,7 @@ var webcamTexture	= new THREEx.WebcamTexture()
 })
 
 var material = new THREE.MeshBasicMaterial({
-	map	: webcamTexture.texture
+	map	: webcamTexture.texture,
 });	
 
 var youGeometry	= new THREE.PlaneGeometry(planeSize*2,planeSize*2,4);
@@ -200,12 +206,23 @@ onRenderFcts.push(function(delta, now){
     if(controls.getObject().position.x <= -corridorSize + 1) controls.getObject().position.x = -corridorSize + 1;
     if(controls.getObject().position.z >= 0) controls.getObject().position.z = 0;
     if(controls.getObject().position.z <= -105) controls.getObject().position.z = -105;
-
+    if(controls.getObject().position.z <= -95) {reached = true; FinishIt();}
 })
 
 onRenderFcts.push(function(delta, now){
-	//mesh.rotation.x += 1 * delta;
-	//mesh.rotation.y += 2 * delta;
+	 planeTvs.forEach(function(tv){
+	 	if (!reached ){
+		 	var factor = Math.sin(now) * (controls.getObject().position.z * .3	) * .4 * Math.random();
+
+		 	tv.position.z += delta * factor;
+		 	tv.position.y += delta * factor;
+		 	tv.position.x += delta * factor * (tv.position.x / 15);
+
+		 }else{
+		 	tv.material = material; 
+		 	tv.lookAt(controls.getObject().position)
+		 }
+	 });
 })
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -216,8 +233,9 @@ onRenderFcts.push(function(delta, now){
 window.addEventListener('resize', function(){
 	renderer.setSize( window.innerWidth, window.innerHeight )
 	camera.aspect	= window.innerWidth / window.innerHeight
-	camera.updateProjectionMatrix()		
-}, false)
+	camera.updateProjectionMatrix()}, false)
+document.addEventListener( 'keydown', onKeyDown, false );
+document.addEventListener( 'keyup', onKeyUp, false );
 
 renderer.setClearColor( 0x101010 );
 scene.fog = new THREE.FogExp2( 0x101010, 0.038 );
