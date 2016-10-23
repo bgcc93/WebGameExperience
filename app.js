@@ -79,9 +79,6 @@ var onKeyUp = function ( event ) {
 	}
 };
 
-document.addEventListener( 'keydown', onKeyDown, false );
-document.addEventListener( 'keyup', onKeyUp, false );
-
 function checkForPointerLock() {
   return 'pointerLockElement' in document || 
          'mozPointerLockElement' in document || 
@@ -129,11 +126,22 @@ function initPointerLock() {
 function checkForPointerLock() {
     return 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
 }
+
 function addControls() {
     controls = new THREE.PointerLockControls( camera );
     scene.add( controls.getObject() );
     
     initPointerLock();
+}
+
+function FinishIt(){	
+	setTimeout(function() {
+		$('#overlay').animate({
+       		opacity: 1,
+	     }, 5000, function() {
+	        window.location = "end.html";
+	     });	
+	}, 7000);
 }
 
 function CreateWall(side = -1){
@@ -202,8 +210,7 @@ onRenderFcts.push(function(delta, now){
     if(controls.getObject().position.x <= -corridorSize + 1) controls.getObject().position.x = -corridorSize + 1;
     if(controls.getObject().position.z >= 0) controls.getObject().position.z = 0;
     if(controls.getObject().position.z <= -105) controls.getObject().position.z = -105;
-    if(controls.getObject().position.z <= -100) {reached = true;}
-
+    if(controls.getObject().position.z <= -95) {reached = true; FinishIt();}
 })
 
 onRenderFcts.push(function(delta, now){
@@ -213,7 +220,7 @@ onRenderFcts.push(function(delta, now){
 
 		 	tv.position.z += delta * factor;
 		 	tv.position.y += delta * factor;
-		 	tv.position.x += delta * factor * (tv.position.x / 9);
+		 	tv.position.x += delta * factor * (tv.position.x / 10);
 
 		 }else{
 		 	tv.material = material; 
@@ -230,8 +237,9 @@ onRenderFcts.push(function(delta, now){
 window.addEventListener('resize', function(){
 	renderer.setSize( window.innerWidth, window.innerHeight )
 	camera.aspect	= window.innerWidth / window.innerHeight
-	camera.updateProjectionMatrix()		
-}, false)
+	camera.updateProjectionMatrix()}, false)
+document.addEventListener( 'keydown', onKeyDown, false );
+document.addEventListener( 'keyup', onKeyUp, false );
 
 renderer.setClearColor( 0x101010 );
 scene.fog = new THREE.FogExp2( 0x101010, 0.038 );

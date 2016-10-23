@@ -7,6 +7,7 @@
 		left: 150px;
 		background: red;
 	}
+	#overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: black; opacity: 0; z-index: 99;}
 </style>
 <script src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
 <script src="http://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
@@ -17,13 +18,10 @@
 <script src='vendor/threex.webcamtexture.js'></script>
 <script src='vendor/threex.videotexture.js'></script>
 <script src='videos.js'></script>
-<script>
-$( ".test" ).click(function() {
-  $( ".test" ).effect( "explode", {pieces: 16}, 250 );
-});
-</script>
 
 <body style='margin: 0px; background-color: #000; overflow: hidden;'>
-<!--<div class="test"></div>-->
+
+	<div id="overlay"></div>
+
 </body>
 <script src='app.js'></script>
