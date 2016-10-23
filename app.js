@@ -141,7 +141,7 @@ function FinishIt(){
 	     }, 5000, function() {
 	        window.location = "end.html";
 	     });	
-	}, 7000);
+	}, 4500);
 }
 
 function CreateWall(side = -1){
@@ -154,10 +154,6 @@ function CreateWall(side = -1){
 				mesh.rotateY(side * (Math.PI / 2));
 				mesh.position = new THREE.Vector3( side * -corridorSize * k * 1.7, i * (planeSize + 1), (j * -(planeSize + 1)));
 				
-				onRenderFcts.push(function(delta, now){
-					mesh.position.z += 100 * delta;
-					mesh.position.y += 100 * delta;
-				})
 				planeTvs.push(mesh);
 			}
 		}
@@ -216,11 +212,11 @@ onRenderFcts.push(function(delta, now){
 onRenderFcts.push(function(delta, now){
 	 planeTvs.forEach(function(tv){
 	 	if (!reached ){
-		 	var factor = Math.sin(now) *  Math.tan(now * delta) * (controls.getObject().position.z * .2	) * .4 * Math.random();
+		 	var factor = Math.sin(now) * (controls.getObject().position.z * .3	) * .4 * Math.random();
 
 		 	tv.position.z += delta * factor;
 		 	tv.position.y += delta * factor;
-		 	tv.position.x += delta * factor * (tv.position.x / 10);
+		 	tv.position.x += delta * factor * (tv.position.x / 15);
 
 		 }else{
 		 	tv.material = material; 
