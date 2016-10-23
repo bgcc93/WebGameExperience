@@ -55,7 +55,7 @@ var onKeyDown = function ( event ) {
 			moveRight = true;
 			break;
 	}
-};
+}
 
 var onKeyUp = function ( event ) {
 
@@ -77,7 +77,7 @@ var onKeyUp = function ( event ) {
 			moveRight = false;
 			break;
 	}
-};
+}
 
 function checkForPointerLock() {
   return 'pointerLockElement' in document || 
@@ -87,40 +87,39 @@ function checkForPointerLock() {
 
 function initPointerLock() {
   var element = document.body;
+	  if (havePointerLock) {
+	    var pointerlockchange = function (event) {
+	      if (document.pointerLockElement === element ||
+	          document.mozPointerLockElement === element ||
+	          document.webkitPointerLockElement === element) {
+	        controlsEnabled = true;
+	        controls.enabled = true;
+	      } else {
+	        controlsEnabled = false;
+	        controls.enabled = false;
+	      }
+	    };
 
-  if (havePointerLock) {
-    var pointerlockchange = function (event) {
-      if (document.pointerLockElement === element ||
-          document.mozPointerLockElement === element ||
-          document.webkitPointerLockElement === element) {
-        controlsEnabled = true;
-        controls.enabled = true;
-      } else {
-        controlsEnabled = false;
-        controls.enabled = false;
-      }
-    };
+	    var pointerlockerror = function (event) {
+	      element.innerHTML = 'PointerLock Error';
+	    };
 
-    var pointerlockerror = function (event) {
-      element.innerHTML = 'PointerLock Error';
-    };
+	    document.addEventListener('pointerlockchange', pointerlockchange, false);
+	    document.addEventListener('mozpointerlockchange', pointerlockchange, false);
+	    document.addEventListener('webkitpointerlockchange', pointerlockchange, false);
 
-    document.addEventListener('pointerlockchange', pointerlockchange, false);
-    document.addEventListener('mozpointerlockchange', pointerlockchange, false);
-    document.addEventListener('webkitpointerlockchange', pointerlockchange, false);
+	    document.addEventListener('pointerlockerror', pointerlockerror, false);
+	    document.addEventListener('mozpointerlockerror', pointerlockerror, false);
+	    document.addEventListener('webkitpointerlockerror', pointerlockerror, false);
 
-    document.addEventListener('pointerlockerror', pointerlockerror, false);
-    document.addEventListener('mozpointerlockerror', pointerlockerror, false);
-    document.addEventListener('webkitpointerlockerror', pointerlockerror, false);
-
-    var requestPointerLock = function(event) {
-      element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
-      element.requestPointerLock();
-    };
-    element.addEventListener('click', requestPointerLock, false);
-  } else {
-    element.innerHTML = 'Bad browser; No pointer lock';
-  }
+	    var requestPointerLock = function(event) {
+	      element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
+	      element.requestPointerLock();
+	    };
+	    element.addEventListener('click', requestPointerLock, false);
+	  } else {
+	    element.innerHTML = 'Bad browser; No pointer lock';
+	  }
 }
 
 function checkForPointerLock() {
@@ -131,7 +130,7 @@ function addControls() {
     controls = new THREE.PointerLockControls( camera );
     scene.add( controls.getObject() );
     
-    initPointerLock();
+    //initPointerLock();
 }
 
 function FinishIt(){	
@@ -162,7 +161,7 @@ function CreateWall(side = -1){
 
 
 renderer.setSize( window.innerWidth, window.innerHeight );
-document.body.appendChild( renderer.domElement );
+document.getElementById("threeD").appendChild( renderer.domElement );
 
 addControls();
 

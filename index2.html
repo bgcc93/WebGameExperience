@@ -1,13 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <style type="text/css">
+      .fullScreen{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+      #first{
+        width: 100%;
+        z-index: 105;
+        background: white;
+      }
+      #second{
+        width: 100%;
+        z-index: 103;
+        background: white;
+      }
+      #main{
+        background-color: #ffffff;
+        z-index: 99;
+      }
+      #overlay {        
+        background: black; 
+        opacity: 1; 
+        z-index: 50;
+      }
+      #threeD{
+        z-index: 10;  
+      }
+    </style>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>magExpress</title>
+    <title>News Site</title>
 
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+    <script src="http://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r79/three.min.js"></script>
+    <script src="vendor/PointerLockControls.js"></script>
+    <script src='vendor/threex.solidwireframe.js'></script>
+    <script src='vendor/three.js/build/three.min.js'></script>
+    <script src='vendor/threex.webcamtexture.js'></script>
+    <script src='vendor/threex.videotexture.js'></script>
+    <script src='videos.js'></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
     <!-- for fontawesome icon css file -->
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <!-- for content animate css file -->
@@ -30,19 +71,10 @@
     <![endif]-->
   </head>
 <body>
-  <!-- =========================
-    //////////////This Theme Design and Developed //////////////////////
-    //////////// by www.wpfreeware.com======================-->
-
-  <!-- Preloader -->
-  <div id="preloader">
-    <div id="status">&nbsp;</div>
-  </div>
-  <!-- End Preloader -->
-   
-  <a class="scrollToTop" href="#"><i class="fa fa-angle-up"></i></a>
-  
-  <div class="container">
+ <script> 
+    var canEnter = false;
+ </script>
+  <div id="first" class="fullScreen container">
     <!-- start header area -->
     <header id="header">
       <div class="row">
@@ -50,16 +82,10 @@
           <!-- start header top -->
           <div class="header_top">
             <div class="header_top_left">
-              <!--<ul class="top_nav">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="page.html">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="404.html">Error Page</a></li>
-              </ul>-->
             </div>
             <div class="header_top_right">
               <form class="search_form">
-                <input type="text" placeholder="Text to Search">
+                <input type="text" placeholder="">
                 <input type="submit" value="">
               </form>
             </div>
@@ -73,7 +99,7 @@
               <img src="img/logo.jpg" alt="logo">
              </a>-->
              <!-- for text logo -->
-              <a class="logo" href="index.html">
+              <a class="logo">
                van<strong>Hack</strong> <span>The news portal for developers</span>
              </a> 
 			 
@@ -87,20 +113,14 @@
         <nav class="navbar navbar-default" role="navigation">
           <div class="container-fluid">
             <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>             
             </div>
 			
             <div id="navbar" class="navbar-collapse collapse">
               <ul class="nav navbar-nav custom_nav">
-                <li class=""><a href="index.html">Home</a></li>                    
-                <li><a href="single.html">Technology</a></li>
-                <li><a href="archive1.html">Politics</a></li>
-                <li><a href="archive1.html">Education</a></li>
+                <li class=""><a>Lorem </a></li>                    
+                <li><a>ipsum </a></li>
+                <li><a>dolor </a></li>
+                <li><a>amet</a></li>
               </ul>           
             </div><!--/.nav-collapse -->
 			
@@ -113,27 +133,11 @@
         <div class="content_top">
           <div class="row">
              <!-- start content top latest slider -->
-            <div class="col-lg-6 col-md-6 col-sm6">             
-              <div class="latest_slider">
-                 <!-- Set up your HTML -->
-                <div class="slick_slider">
-                  <div class="single_iteam">
-                    <img src="img/devhill/550x330x1.jpg" alt="img">
-                    <h2><a class="slider_tittle" href="single.html">Fusce eu nulla semper porttitor felis sit amet</a></h2>
-                  </div>
-                  <div class="single_iteam">
-                    <img src="img/devhill/550x330x2.jpg" alt="img">
-                    <h2><a class="slider_tittle" href="single.html">Fusce eu nulla semper porttitor felis sit amet</a></h2>
-                  </div>
-                  <div class="single_iteam">
-                    <img src="img/devhill/550x330x3.jpg" alt="img">
-                     <h2><a class="slider_tittle" href="single.html">Fusce eu nulla semper porttitor felis sit amet</a></h2>
-                  </div>
-                  <div class="single_iteam">
-                    <img src="img/devhill/550x330x4.jpg" alt="img">
-                     <h2><a class="slider_tittle" href="single.html">Fusce eu nulla semper porttitor felis sit amet</a></h2>
-                  </div>
-                </div>
+            <div id="exitFirst" class="col-lg-6 col-md-6 col-sm6">    
+              <div>
+              <img src="img/devhill/550x330x2.jpg" alt="img">
+                <h1 class="button btn-danger">Scientist says reality is in fact a simulation</h1>
+                <h3>While we have yet to have a definitive answer, one expert has waded through this philosophical quagmire to  explain arguments about whether we are just a brain in a....<a>Click here to read more</a></h3>
               </div>
             </div> <!-- End content top latest slider -->
 
@@ -143,7 +147,7 @@
                   <li>
                     <img src="img/devhill/300x215x1.jpg" alt="img">
                     <div class="title_caption">
-                      <a href="single.html">
+                      <a>
                         Sed luctus semper odio aliquam rhoncus
                       </a>
                     </div>
@@ -151,7 +155,7 @@
                   <li>
                     <img src="img/devhill/300x215x2.jpg" alt="img">
                     <div class="title_caption">
-                      <a href="single.html">
+                      <a>
                         Sed luctus semper odio aliquam rhoncus
                       </a>
                     </div>
@@ -159,7 +163,7 @@
                    <li>
                     <img src="img/devhill/300x215x3.jpg" alt="img">
                     <div class="title_caption">
-                      <a href="single.html">
+                      <a >
                         Sed luctus semper odio aliquam rhoncus
                       </a>
                     </div>
@@ -167,7 +171,7 @@
                    <li>
                     <img src="img/devhill/300x215x4.jpg" alt="img">
                     <div class="title_caption">
-                      <a href="single.html">
+                      <a >
                         Sed luctus semper odio aliquam rhoncus
                       </a>
                     </div>
@@ -185,24 +189,24 @@
                 <h2>                  
                   <span class="bold_line"><span></span></span>
                   <span class="solid_line"></span>
-                  <a href="category-archive.html" class="title_text">category1</a>
+                  <aclass="title_text">lorem</a>
                 </h2>
                 <ul class="catg1_nav">
                   <li>
                     <div class="catgimg_container">
-                      <a href="single.html" class="catg1_img">
+                      <a  class="catg1_img">
                         <img alt="img" src="img/devhill/292x150x1.jpg">
                       </a>
                     </div>
-                    <h3 class="post_titile"><a href="single.html">Vestibulum ut est augue, in varius</a></h3>
+                    <h3 class="post_titile"><a >Vestibulum ut est augue, in varius</a></h3>
                   </li>
                   <li>
                     <div class="catgimg_container">
-                      <a href="single.html" class="catg1_img">
+                      <a  class="catg1_img">
                         <img alt="img" src="img/devhill/292x150x2.jpg">
                       </a>
                     </div>
-                    <h3 class="post_titile"><a href="single.html">Vestibulum ut est augue, in varius</a></h3>
+                    <h3 class="post_titile"><a >Vestibulum ut est augue, in varius</a></h3>
                   </li>
                 </ul>      
               </div>
@@ -212,18 +216,8 @@
             <div class="content_middle_middle">
               <div class="slick_slider2">
                 <div class="single_featured_slide">
-                  <a href="single.html"><img src="img/devhill/567x330x1.jpg" alt="img"></a>
-                  <h2><a href="single.html">Praesent vitae quam vitae arcu posuer 1</a></h2>
-                  <p>Nunc tincidunt, elit non cursus euismod, lacus augue ornare metus, egestas imperdiet nulla nisl quis mauris. Suspendisse a pharetra urna. Morbi dui lectus, pharetra nec elementum eget, vulput...</p>
-                </div>
-                <div class="single_featured_slide">
-                  <a href="single.html"><img src="img/devhill/567x330x2.jpg" alt="img"></a>
-                  <h2><a href="#">Praesent vitae quam vitae arcu posuer 2</a></h2>
-                  <p>Nunc tincidunt, elit non cursus euismod, lacus augue ornare metus, egestas imperdiet nulla nisl quis mauris. Suspendisse a pharetra urna. Morbi dui lectus, pharetra nec elementum eget, vulput...</p>
-                </div>
-                <div class="single_featured_slide">
-                  <a href="single.html"><img src="img/devhill/567x330x3.jpg" alt="img"></a>
-                  <h2><a href="#">Praesent vitae quam vitae arcu posuer 3</a></h2>
+                  <a ><img src="img/devhill/567x330x1.jpg" alt="img"></a>
+                  <h2><a >Praesent vitae quam vitae arcu posuer 1</a></h2>
                   <p>Nunc tincidunt, elit non cursus euismod, lacus augue ornare metus, egestas imperdiet nulla nisl quis mauris. Suspendisse a pharetra urna. Morbi dui lectus, pharetra nec elementum eget, vulput...</p>
                 </div>
               </div>
@@ -235,24 +229,24 @@
                   <h2>                  
                     <span class="bold_line"><span></span></span>
                     <span class="solid_line"></span>
-                    <a href="category-archive.html" class="title_text">category2</a>
+                    <a class="title_text">ipsum</a>
                   </h2>
                   <ul class="catg1_nav">
                     <li>
                       <div class="catgimg_container">
-                        <a href="single.html" class="catg1_img">
+                        <a  class="catg1_img">
                           <img alt="img" src="img/devhill/292x150x1.jpg">
                         </a>
                       </div>
-                      <h3 class="post_titile"><a href="single.html">Vestibulum ut est augue, in varius</a></h3>
+                      <h3 class="post_titile"><a >Vestibulum ut est augue, in varius</a></h3>
                     </li>
                      <li>
                       <div class="catgimg_container">
-                        <a href="single.html" class="catg1_img">
+                        <a  class="catg1_img">
                           <img alt="img" src="img/devhill/292x150x2.jpg">
                         </a>
                       </div>
-                      <h3 class="post_titile"><a href="single.html">Vestibulum ut est augue, in varius</a></h3>
+                      <h3 class="post_titile"><a >Vestibulum ut est augue, in varius</a></h3>
                     </li>
                   </ul>      
                 </div>
@@ -269,19 +263,19 @@
                   <h2>                  
                     <span class="bold_line"><span></span></span>
                     <span class="solid_line"></span>
-                    <a class="title_text" href="category-archive.html">Business</a>
+                    <a class="title_text" ">metus</a>
                   </h2>
                   <div class="business_category_left wow fadeInDown">
                     <ul class="fashion_catgnav">
                       <li>
                         <div class="catgimg2_container">
-                          <a href="single.html"><img alt="img" src="img/devhill/390x240x1.jpg"></a>
+                          <a ><img alt="img" src="img/devhill/390x240x1.jpg"></a>
                         </div>
-                        <h2 class="catg_titile"><a href="single.html">Aenean mollis metus sit amet ligula adipiscing</a></h2>
+                        <h2 class="catg_titile"><a >Aenean mollis metus sit amet ligula adipiscing</a></h2>
                         <div class="comments_box">
-                          <span class="meta_date">14/12/2013</span>
-                          <span class="meta_comment"><a href="#">No Comments</a></span>
-                          <span class="meta_more"><a  href="#">Read More...</a></span>
+                          <span class="meta_date">01/01/0001</span>
+                          <span class="meta_comment"><a href="#">imperdiet nulla</a></span>
+                          <span class="meta_more"><a  href="#">non cursus...</a></span>
                         </div>
                         <p>Nunc tincidunt, elit non cursus euismod, lacus augue ornare metus, egestas imperdiet nulla...</p>
                       </li>
@@ -291,11 +285,11 @@
                     <ul class="small_catg">
                       <li>
                         <div class="media wow fadeInDown">
-                          <a class="media-left" href="single.html">
+                          <a class="media-left" >
                             <img src="img/devhill/112x112.jpg" alt="img">
                           </a>
                           <div class="media-body">
-                            <h4 class="media-heading"><a href="single.html">Duis condimentum nunc pretium lobortis </a></h4> 
+                            <h4 class="media-heading"><a >Duis condimentum nunc pretium lobortis </a></h4> 
                             <div class="comments_box">
                               <span class="meta_date">14/12/2013</span>
                               <span class="meta_comment"><a href="#">No Comments</a></span>
@@ -344,12 +338,12 @@
                       <h2>                  
                         <span class="bold_line"><span></span></span>
                         <span class="solid_line"></span>
-                        <a class="title_text" href="category-archive.html">Games</a>
+                        <a class="title_text" href="category-archive.html">Lingula</a>
                       </h2>
                       <ul class="fashion_catgnav wow fadeInDown">
                         <li>
                           <div class="catgimg2_container">
-                            <a href="single.html"><img alt="img" src="img/devhill/390x240x1.jpg"></a>
+                            <a ><img alt="img" src="img/devhill/390x240x1.jpg"></a>
                           </div>
                           <h2 class="catg_titile"><a href="#">Aenean mollis metus sit amet ligula adipiscing</a></h2>
                           <div class="comments_box">
@@ -400,7 +394,7 @@
                         <h2>                  
                           <span class="bold_line"><span></span></span>
                           <span class="solid_line"></span>
-                          <a class="title_text" href="category-archive.html">Fashion</a>
+                          <a class="title_text" href="category-archive.html">Egesta</a>
                         </h2>
                         <ul class="fashion_catgnav wow fadeInDown">
                           <li>
@@ -450,78 +444,6 @@
                     </div>
                   </div><!-- End fashion category -->
                 </div><!-- End games & fashion category --> 
-                <!-- start technology category area -->
-                <div class="technology_catrarea">
-                  <div class="single_category">
-                    <h2>                  
-                      <span class="bold_line"><span></span></span>
-                      <span class="solid_line"></span>
-                      <a class="title_text" href="#">Technology</a>
-                    </h2>
-                    <div class="business_category_left">
-                      <ul class="fashion_catgnav wow fadeInDown">
-                        <li>
-                          <div class="catgimg2_container">
-                            <a href="#"><img alt="img" src="img/devhill/390x240x1.jpg"></a>
-                          </div>
-                          <h2 class="catg_titile"><a href="#">Aenean mollis metus sit amet ligula adipiscing</a></h2>
-                          <div class="comments_box">
-                            <span class="meta_date">14/12/2013</span>
-                            <span class="meta_comment"><a href="#">No Comments</a></span>
-                            <span class="meta_more"><a  href="#">Read More...</a></span>
-                          </div>
-                          <p>Nunc tincidunt, elit non cursus euismod, lacus augue ornare metus, egestas imperdiet nulla...</p>
-                        </li>
-                      </ul>
-                    </div>  
-                    <div class="business_category_right">
-                      <ul class="small_catg wow fadeInDown">
-                        <li>
-                          <div class="media wow fadeInDown">
-                            <a class="media-left" href="#">
-                              <img src="img/devhill/112x112.jpg" alt="img">
-                            </a>
-                            <div class="media-body">
-                              <h4 class="media-heading"><a href="#">Duis condimentum nunc pretium lobortis </a></h4> 
-                              <div class="comments_box">
-                                <span class="meta_date">14/12/2013</span>
-                                <span class="meta_comment"><a href="#">No Comments</a></span>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div class="media wow fadeInDown">
-                            <a class="media-left" href="#">
-                              <img src="img/devhill/112x112.jpg" alt="img">
-                            </a>
-                            <div class="media-body">
-                              <h4 class="media-heading"><a href="#">Duis condimentum nunc pretium lobortis </a></h4> 
-                              <div class="comments_box">
-                                <span class="meta_date">14/12/2013</span>
-                                <span class="meta_comment"><a href="#">No Comments</a></span>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div class="media wow fadeInDown">
-                            <a class="media-left" href="#">
-                              <img src="img/devhill/112x112.jpg" alt="img">
-                            </a>
-                            <div class="media-body">
-                              <h4 class="media-heading"><a href="#">Duis condimentum nunc pretium lobortis </a></h4> 
-                              <div class="comments_box">
-                                <span class="meta_date">14/12/2013</span>
-                                <span class="meta_comment"><a href="#">No Comments</a></span>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>   
-                  </div>
-                </div><!-- End technology category area -->
               </div><!--End content_bottom_left-->                 
             </div>
             <!-- start content bottom right -->
@@ -529,7 +451,7 @@
               <div class="content_bottom_right">
                 <!-- start single bottom rightbar -->
                 <div class="single_bottom_rightbar">
-                  <h2>Recent Post</h2>
+                  <h2>Elit</h2>
                   <ul class="small_catg popular_catg wow fadeInDown">
                     <li>
                       <div class="media wow fadeInDown">
@@ -569,8 +491,222 @@
                 <!-- start single bottom rightbar -->
                 <div class="single_bottom_rightbar">
                   <ul role="tablist" class="nav nav-tabs custom-tabs">
-                    <li class="active" role="presentation"><a data-toggle="tab" role="tab" aria-controls="home" href="#mostPopular">Most Popular</a></li>
-                    <li role="presentation"><a data-toggle="tab" role="tab" aria-controls="messages" href="#recentComent">Recent Comment</a></li>
+                    <li class="active" role="presentation"><a data-toggle="tab" role="tab" aria-controls="home" href="#">Suspend Pahreta</a></li>
+                  </ul>
+                  <div class="tab-content">
+                  <div id="mostPopular" class="tab-pane fade in active" role="tabpanel">
+                    <ul class="small_catg popular_catg wow fadeInDown">
+                      <li>
+                        <div class="media wow fadeInDown">
+                          <a class="media-left" href="#">
+                            <img src="img/devhill/112x112.jpg" alt="img">
+                          </a>
+                          <div class="media-body">
+                            <h4 class="media-heading"><a href="#">Duis condimentum nunc pretium lobortis </a></h4> 
+                            <p>Nunc tincidunt, elit non cursus euismod, lacus augue ornare metus, egestas imperdiet nulla nisl quis mauris. Suspendisse a pharetra </p>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="media wow fadeInDown">
+                          <a class="media-left" href="#">
+                            <img src="img/devhill/112x112.jpg" alt="img">
+                          </a>
+                          <div class="media-body">
+                            <h4 class="media-heading"><a href="#">Duis condimentum nunc pretium lobortis </a></h4> 
+                           <p>Nunc tincidunt, elit non cursus euismod, lacus augue ornare metus, egestas imperdiet nulla nisl quis mauris. Suspendisse a pharetra </p>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="media wow fadeInDown">
+                          <a class="media-left" href="#">
+                            <img src="img/devhill/112x112.jpg" alt="img">
+                          </a>
+                          <div class="media-body">
+                            <h4 class="media-heading"><a href="#">Duis condimentum nunc pretium lobortis </a></h4> 
+                            <p>Nunc tincidunt, elit non cursus euismod, lacus augue ornare metus, egestas imperdiet nulla nisl quis mauris. Suspendisse a pharetra </p>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div id="recentComent" class="tab-pane fade" role="tabpanel">
+                     <ul class="small_catg popular_catg">
+                      <li>
+                        <div class="media wow fadeInDown">
+                          <a class="media-left" href="#">
+                            <img src="img/devhill/112x112.jpg" alt="img">
+                          </a>
+                          <div class="media-body">
+                            <h4 class="media-heading"><a href="#">Duis condimentum nunc pretium lobortis </a></h4> 
+                            <p>Nunc tincidunt, elit non cursus euismod, lacus augue ornare metus, egestas imperdiet nulla nisl quis mauris. Suspendisse a pharetra </p>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="media wow fadeInDown">
+                          <a class="media-left" href="#">
+                            <img src="img/devhill/112x112.jpg" alt="img">
+                          </a>
+                          <div class="media-body">
+                            <h4 class="media-heading"><a href="#">Duis condimentum nunc pretium lobortis </a></h4> 
+                           <p>Nunc tincidunt, elit non cursus euismod, lacus augue ornare metus, egestas imperdiet nulla nisl quis mauris. Suspendisse a pharetra </p>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="media wow fadeInDown">
+                          <a class="media-left" href="#">
+                            <img src="img/devhill/112x112.jpg" alt="img">
+                          </a>
+                          <div class="media-body">
+                            <h4 class="media-heading"><a href="#">Duis condimentum nunc pretium lobortis </a></h4> 
+                            <p>Nunc tincidunt, elit non cursus euismod, lacus augue ornare metus, egestas imperdiet nulla nisl quis mauris. Suspendisse a pharetra </p>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>                                   
+                </div>
+              </div> <!-- End single bottom rightbar -->                          
+          </div>
+          <!-- start content bottom right -->
+        </div><!-- end main content bottom -->        
+      </section><!-- End site main content -->
+    </div> <!-- /.container -->    
+  <div id="second" class="fullScreen container">
+    <header id="header">
+      <div class="row">
+        <div class="col-lg-12 col-md-12">
+          <!-- start header top -->
+          <div class="header_top">
+            <div class="header_top_left">
+            </div>
+            <div class="header_top_right">
+              <form class="search_form">
+                <input type="text" placeholder="">
+                <input type="submit" value="">
+              </form>
+            </div>
+          </div><!-- End header top -->
+          <!-- start header bottom -->
+          <div class="header_bottom">
+            <div class="header_bottom_left">
+            <!-- for img logo -->
+      
+            <!-- <a class="logo" href="index.html">
+              <img src="img/logo.jpg" alt="logo">
+             </a>-->
+             <!-- for text logo -->
+              <a class="logo" href="#">
+               van<strong>Hack</strong> <span>The news portal for developers</span>
+             </a> 
+       
+            </div>
+          </div><!-- End header bottom -->
+        </div>
+      </div>
+    </header><!-- End header area -->
+     <!-- Static navbar -->
+      <div id="navarea">
+        <nav class="navbar navbar-default" role="navigation">
+          <div class="container-fluid">
+            <div class="navbar-header">
+            </div>
+      
+            <div id="navbar" class="navbar-collapse collapse">
+              <ul class="nav navbar-nav custom_nav">
+                <li class=""><a href="">Lorem </a></li>                    
+                <li><a >ipsum </a></li>
+                <li><a href="">dolor </a></li>
+                <li><a href="">amet</a></li>
+              </ul>           
+            </div><!--/.nav-collapse -->
+      
+          </div><!--/.container-fluid -->
+        </nav>
+      </div>
+      <!-- start site main content -->
+      <section id="mainContent">        
+       
+          <!-- start main content bottom -->
+          <div class="content_bottom">
+            <div class="col-lg-8 col-md-8">
+            <!-- start content bottom left -->
+              <div id="exitSecond" class="content_bottom_left">                
+                <div class="single_page_area">
+                  <h2 class="post_titile">Scientist says reality is in fact a simulation</h2>
+                  <div class="single_page_content">
+                    <div class="post_commentbox">
+                      <a href="#"><i class="fa fa-user"></i>Joe Doe</a>
+                      <span><i class="fa fa-calendar"></i>11:11 AM</span>
+                      <a href="#"><i class="fa fa-tags"></i>Lorem</a>
+                    </div>
+                    <img class="img-center" src="img/devhill/550x330x3.jpg" alt="img">
+                    <p>
+                    If you, me and every person and thing in the cosmos were actually characters in some giant computer game, we would not necessarily know it. 
+                    </p>
+                    <p>
+                    Your brain has been expertly removed from your body and is being kept alive in a vat of nutrients that sits on a laboratory bench.
+                    The nerve endings of your brain are connected to a supercomputer that feeds you all the sensations of everyday life.</p>
+                    <p>
+                      Scientists put the odds at 50-50 that our entire existence is a program on someone else’s hard drive. 
+                    </p>
+                    <blockquote>
+                      We would be drooling, blithering idiots in their presence. If that’s the case, it is easy for me to imagine that everything in our lives is just a creation of some other entity for their entertainment.
+                    </blockquote>
+                    
+                  </div>                 
+                </div>                  
+              </div><!--End content_bottom_left-->  
+            </div>
+            <!-- start content bottom right -->
+            <div class="col-lg-4 col-md-4">
+              <div class="content_bottom_right">
+                <!-- start single bottom rightbar -->
+                <div class="single_bottom_rightbar">
+                  <h2>Lorem Ipsum</h2>
+                  <ul class="small_catg popular_catg wow fadeInDown">
+                    <li>
+                      <div class="media wow fadeInDown">
+                        <a href="#" class="media-left">
+                          <img alt="img" src="img/devhill/112x112.jpg">
+                        </a>
+                        <div class="media-body">
+                          <h4 class="media-heading"><a href="#">Duis condimentum nunc pretium lobortis </a></h4> 
+                          <p>Nunc tincidunt, elit non cursus euismod, lacus augue ornare metus, egestas imperdiet nulla nisl quis mauris. Suspendisse a pharetra </p>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="media wow fadeInDown">
+                        <a href="#" class="media-left">
+                          <img alt="img" src="img/devhill/112x112.jpg">
+                        </a>
+                        <div class="media-body">
+                          <h4 class="media-heading"><a href="#">Duis condimentum nunc pretium lobortis </a></h4> 
+                         <p>Nunc tincidunt, elit non cursus euismod, lacus augue ornare metus, egestas imperdiet nulla nisl quis mauris. Suspendisse a pharetra </p>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="media wow fadeInDown">
+                        <a href="#" class="media-left">
+                          <img alt="img" src="img/devhill/112x112.jpg">
+                        </a>
+                        <div class="media-body">
+                          <h4 class="media-heading"><a href="#">Duis condimentum nunc pretium lobortis </a></h4> 
+                          <p>Nunc tincidunt, elit non cursus euismod, lacus augue ornare metus, egestas imperdiet nulla nisl quis mauris. Suspendisse a pharetra </p>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div> <!-- End single bottom rightbar -->
+                <!-- start single bottom rightbar -->
+                <div class="single_bottom_rightbar">
+                  <ul role="tablist" class="nav nav-tabs custom-tabs">
+                    <li class="active" role="presentation"><a data-toggle="tab" role="tab" aria-controls="home" href="#">Midium Donar</a></li>
                   </ul>
                   <div class="tab-content">
                   <div id="mostPopular" class="tab-pane fade in active" role="tabpanel">
@@ -649,126 +785,69 @@
                   </div>                                   
                 </div>
               </div> <!-- End single bottom rightbar -->
-               <div class="single_bottom_rightbar">
-                <h2>Blog Archive</h2>
-                <div class="blog_archive wow fadeInDown">
-                   <form>
-                     <select>
-                       <option value="">Blog Archive</option>
-                       <option value="">October(20)</option>
-                     </select>
-                   </form>
-                 </div>
-              </div>
-              <div class="single_bottom_rightbar wow fadeInDown">
-                <h2>Popular Lnks</h2>
-                <ul>
-                  <li><a href="#">Blog</a></li>
-                  <li><a href="#">Blog Home</a></li>
-                  <li><a href="#">Error Page</a></li>
-                  <li><a href="#">Social link</a></li>
-                  <li><a href="#">Login</a></li>                  
-                </ul>
-              </div>
+              
             </div>
           </div>
           <!-- start content bottom right -->
         </div><!-- end main content bottom -->        
       </section><!-- End site main content -->
-    </div> <!-- /.container -->
-    <footer id="footer">
-      <div class="footer_top">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-4">
-              <div class="single_footer_top wow fadeInLeft">
-                <h2>Flicker Images</h2>
-                <ul class="flicker_nav">
-                  <li>
-                      <a href="#"><img src="img/devhill/75x75.jpg" alt="img"></a>
-                  </li>                 
-                  <li>
-                      <a href="#"><img src="img/devhill/75x75.jpg" alt="img"></a>
-                  </li>
-                   <li>
-                      <a href="#"><img src="img/devhill/75x75.jpg" alt="img"></a>
-                  </li>                 
-                  <li>
-                      <a href="#"><img src="img/devhill/75x75.jpg" alt="img"></a>
-                  </li>
-                   <li>
-                      <a href="#"><img src="img/devhill/75x75.jpg" alt="img"></a>
-                  </li>                 
-                  <li>
-                     <a href="#"><img src="img/devhill/75x75.jpg" alt="img"></a>
-                  </li>
-                   <li>
-                      <a href="#"><img src="img/devhill/75x75.jpg" alt="img"></a>
-                  </li>                 
-                  <li>
-                     <a href="#"><img src="img/devhill/75x75.jpg" alt="img"></a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4">
-              <div class="single_footer_top wow fadeInDown">
-                <h2>Labels</h2>
-                <ul class="labels_nav">
-                  <li><a href="#">Gallery</a></li>
-                  <li><a href="#">Business</a></li>
-                  <li><a href="#">Games</a></li>
-                  <li><a href="#">Fashion</a></li>
-                  <li><a href="#">Sports</a></li>
-                  <li><a href="#">Technology</a></li>
-                  <li><a href="#">Slider</a></li>
-                  <li><a href="#">Life & Style</a></li>
-                </ul>
-              </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4">
-              <div class="single_footer_top wow fadeInRight">
-                <h2>About Us</h2>
-                <p>Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed nec laoreet orci, eget ullamcorper quam. Phasellus lorem neque, </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="footer_bottom">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-              <div class="footer_bottom_left">
-                <p>Copyright © 2014 <a href="index.html">Sora Red</a></p>
-              </div>   
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-              <div class="footer_bottom_right">
-                <p>Designed BY <a href="http://wpfreeware.com/">Wpfreeware</a></p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
+  </div>
+  <div id="main" class="fullScreen">
+    <div id="content" style="background: #0082c5">
+    <h1>IT`S ALL TRUE</h1>
+    <h3>Tim Foil </h3>
+    <p class="abstract">
+      <i>
+        It`s clear that life is not what we see, it`s what we perceive. From centuries we have been keen on taking entertainment from magicians and we love to have some tricks played on us when we see the top hat and from it comes a rabbit.
+      </i>
+    </p>
 
-  <!-- jQuery google CDN Library -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
-  <!-- For content animatin  -->
-  <script src="js/wow.min.js"></script>
-  <!-- bootstrap js file -->
-  <script src="js/bootstrap.min.js"></script> 
-  <!-- slick slider js file -->
-  <script src="js/slick.min.js"></script> 
-  
-    <!-- custom js file include -->
-  <script src="js/custom.js"></script> 
+    <div class="frontMatter">
+      <div class="frontLeft">
+      <p class="date">October 2016</p>
 
-  <!-- =========================
-        //////////////This Theme Design and Developed //////////////////////
-        //////////// by www.wpfreeware.com======================-->
-    
-      
+      <div class="author"><img src="img/devhill/567x330x2.jpg" width="80">
+
+      <p>Nam enim ante, fringilla vel congue consectetur, volutpat quis felis. Pellentesque maximus id lacus sed dapibus. Vestibulum et sollicitudin elit. Nulla elementum, nulla eget ultrices cursus, metus orci elementum est, in fermentum libero ex a sapien. Suspendisse potenti.</p>
+      </div>
+      <div class="clear"></div>
+      </div>
+      <div class="paperBody">
+      <hr>
+
+      <p>People may say that`s crazy, I see what I see, I feel what I feel. But what about dreams? You don`t know you`re dreaming until you wake up. What abou reality? How can you tell you`re even human? How can you know you even exist, you`re not just some projection on someone else`s simulation?</p>
+      <div style="text-align: center;">
+      <h2 id="exitMain"><a style="color:white; text-decoration-style: underline">BUT WHO WANTS TO KNOW WHAT`S BEHIND THE SCENES? <br><br>NO ONE. <br><br>DO YOU?</a></h2>
+      </div>
+      <p>Quisque pretium lectus quis condimentum pulvinar. Suspendisse et augue at lacus ullamcorper ultrices. Fusce et mi eget libero malesuada convallis eu vel mauris. Integer in elit ligula. Mauris efficitur nulla et sapien tempor, at luctus ex molestie. Phasellus auctor velit quis orci tincidunt, eget sodales enim tempus. Maecenas quis neque faucibus enim lacinia volutpat. Nulla mi lacus, placerat finibus finibus eu, volutpat at purus. In lacus eros, scelerisque vitae dui sit amet, varius eleifend sem. Sed vitae nisl ac dolor lacinia posuere id sit amet magna. Duis diam quam, blandit at maximus ut, accumsan vitae sem. Aliquam vitae venenatis erat, sodales venenatis mauris. Maecenas varius lectus at gravida venenatis. Mauris aliquet lorem id est consequat, ac feugiat sem vehicula.</p>
+
+      <p>Suspendisse vitae elementum felis. Nunc sit amet dolor eu nisi venenatis pretium. Vivamus posuere dui sit amet nibh faucibus, ac lacinia magna viverra. Maecenas pellentesque sit amet augue dignissim sodales. Mauris luctus porta turpis. In semper varius felis in euismod. Nullam vel nisl purus.</p>
+      </div>
+    </div>
+  </div>
+  </div>
+  <div id="threeD" class="fullScreen"></div>   
+  <div id="overlay" class="fullScreen"></div>
+  </div>
+  <script src='app.js'></script>
+  <script>
+    $( "#exitMain" ).click(function() {
+      $('#overlay').animate({
+          opacity: 0,
+       }, 5500);  
+      $( "#main" ).effect("explode", {pieces: 16}, 7000 );
+        setTimeout(function() {
+          $("#main").remove();        
+        }, 4000);
+      canEnter = true;
+      initPointerLock();
+    });
+    $( "#exitFirst" ).click(function() {      
+        $("#first").remove();
+    });
+    $( "#exitSecond" ).click(function() {
+        $("#second").remove();
+    });
+  </script>
   </body>
 </html>
